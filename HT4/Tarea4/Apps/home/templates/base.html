@@ -64,6 +64,7 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'administradores:reportesapp' %}">Reportes</a>
+              </li>
               {% if request.user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'administradores:logout' %}">Cerrar Sesión</a>
