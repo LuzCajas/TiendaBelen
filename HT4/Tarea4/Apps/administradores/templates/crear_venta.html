@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block contenido %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Agregar Venta</h2>
+    <form method="POST" class="mx-auto" style="max-width: 600px;">
+        {% csrf_token %}
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.fecha.id_for_label }}" class="col-sm-3 col-form-label">Fecha</label>
+            <div class="col-sm-9">
+                {{ form.fecha }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.id_cliente.id_for_label }}" class="col-sm-3 col-form-label">Cliente</label>
+            <div class="col-sm-9">
+                {{ form.id_cliente }}
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" name="accion" value="ver_carrito" class="btn btn-primary">Ver Carrito</button>
+            <button type="submit" name="accion" value="confirmar" class="btn btn-success">Confirmar Venta</button>
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'administradores:ventasapp' %}" class="btn btn-sm btn-warning">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

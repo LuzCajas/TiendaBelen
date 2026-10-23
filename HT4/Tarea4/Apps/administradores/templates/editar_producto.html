@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Editar Producto</h2>
+    <form method="POST" class="mx-auto" style="max-width: 600px;">
+        {% csrf_token %}
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.nombre.id_for_label }}" class="col-sm-3 col-form-label">Nombre</label>
+            <div class="col-sm-9">
+                {{ form.nombre }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.precio_compra.id_for_label }}" class="col-sm-3 col-form-label">Precio Compra</label>
+            <div class="col-sm-9">
+                {{ form.precio_compra }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.precio_venta.id_for_label }}" class="col-sm-3 col-form-label">Precio Venta</label>
+            <div class="col-sm-9">
+                {{ form.precio_venta }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.fecha_vencimiento.id_for_label }}" class="col-sm-3 col-form-label">Fecha Vencimiento</label>
+            <div class="col-sm-9">
+                {{ form.fecha_vencimiento }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.id_categoria.id_for_label }}" class="col-sm-3 col-form-label">Categoría</label>
+            <div class="col-sm-9">
+                {{ form.id_categoria }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary w-100">Guardar</button>
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'administradores:productoscat' producto.id_categoria.id %}" class="btn btn-sm btn-warning">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

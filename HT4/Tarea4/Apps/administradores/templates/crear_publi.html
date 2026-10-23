@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Agregar Publicación</h2>
+    <form method="POST" class="mx-auto" style="max-width: 600px;">
+        {% csrf_token %}
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.titulo.id_for_label }}" class="col-sm-3 col-form-label">Título</label>
+            <div class="col-sm-9">
+                {{ form.titulo }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.contenido.id_for_label }}" class="col-sm-3 col-form-label">Contenido</label>
+            <div class="col-sm-9">
+                {{ form.contenido }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.escritor.id_for_label }}" class="col-sm-3 col-form-label">Escritor</label>
+            <div class="col-sm-9">
+                {{ form.escritor }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.autorizado.id_for_label }}" class="col-sm-3 col-form-label">Autorizador</label>
+            <div class="col-sm-9">
+                {{ form.autorizado }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary w-100">Guardar</button>
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'administradores:publiapp' %}" class="btn btn-sm btn-warning">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

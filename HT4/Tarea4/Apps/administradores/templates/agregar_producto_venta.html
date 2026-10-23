@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block contenido %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Agregar Producto al Carrito</h2>
+    <form method="POST" class="mx-auto" style="max-width: 600px;">
+        {% csrf_token %}
+
+        <div class="mb-3 row align-items-center">
+            <label for="id_producto" class="col-sm-3 col-form-label">Producto</label>
+            <div class="col-sm-9">
+                <select name="producto" id="id_producto" class="form-control">
+                    <option value="" {% if not form.producto.value %}selected{% endif %}>Seleccione un producto</option>
+                    {% for producto in form.producto.field.queryset %}
+                    <option value="{{ producto.pk }}" data-precio="{{ producto.precio_venta }}" {% if form.producto.value|stringformat:"s" == producto.pk|stringformat:"s" %}selected{% endif %}>{{ producto.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.cantidad.id_for_label }}" class="col-sm-3 col-form-label">Cantidad</label>
+            <div class="col-sm-9">
+                {{ form.cantidad }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label class="col-sm-3 col-form-label">Subtotal</label>
+            <div class="col-sm-9">
+                <label id="lbl_subtotal" class="form-control" style="background-color:#e9ecef;">Q0.00</label>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary w-100">Agregar al Carrito</button>
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'administradores:vercarritoventaapp' %}" class="btn btn-sm btn-warning">Cancelar</a>
+        </div>
+    </form>
+</div>
+<script>
+    function actualizarSubtotal() {
+        var select = document.getElementById('id_producto');
+        var precio = parseFloat(select.options[select.selectedIndex].getAttribute('data-precio')) || 0;
+        var cantidad = parseInt(document.getElementById('id_cantidad').value) || 0;
+        document.getElementById('lbl_subtotal').textContent = 'Q' + (precio * cantidad).toFixed(2);
+    }
+    document.getElementById('id_producto').addEventListener('change', actualizarSubtotal);
+    document.getElementById('id_cantidad').addEventListener('input', actualizarSubtotal);
+    actualizarSubtotal();
+</script>
+{% endblock %}

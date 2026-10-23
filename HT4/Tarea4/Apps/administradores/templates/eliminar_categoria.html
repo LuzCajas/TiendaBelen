@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Eliminar Categoría</h2>
+    <p class="text-center">¿Estás seguro de que deseas eliminar la categoría <strong>{{ categoria.nombre }}</strong>?</p>
+    <form method="POST" class="text-center">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a href="{% url 'administradores:productosapp' %}" class="btn btn-warning">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

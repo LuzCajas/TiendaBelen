@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Agregar Autorizador</h2>
+    <form method="POST" class="mx-auto" style="max-width: 600px;">
+        {% csrf_token %}
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.nombre.id_for_label }}" class="col-sm-3 col-form-label">Nombre</label>
+            <div class="col-sm-9">
+                {{ form.nombre }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.apellido.id_for_label }}" class="col-sm-3 col-form-label">Apellido</label>
+            <div class="col-sm-9">
+                {{ form.apellido }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.rol.id_for_label }}" class="col-sm-3 col-form-label">Rol</label>
+            <div class="col-sm-9">
+                {{ form.rol }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.ciudad.id_for_label }}" class="col-sm-3 col-form-label">Ciudad</label>
+            <div class="col-sm-9">
+                {{ form.ciudad }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary w-100">Guardar</button>
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'administradores:adminapp' %}" class="btn btn-sm btn-warning">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

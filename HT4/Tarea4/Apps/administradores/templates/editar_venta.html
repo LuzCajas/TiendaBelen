@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Editar Venta</h2>
+    <form method="POST" class="mx-auto" style="max-width: 600px;">
+        {% csrf_token %}
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.fecha.id_for_label }}" class="col-sm-3 col-form-label">Fecha</label>
+            <div class="col-sm-9">
+                {{ form.fecha }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.total.id_for_label }}" class="col-sm-3 col-form-label">Total</label>
+            <div class="col-sm-9">
+                {{ form.total }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.id_cliente.id_for_label }}" class="col-sm-3 col-form-label">Cliente</label>
+            <div class="col-sm-9">
+                {{ form.id_cliente }}
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label for="{{ form.id_usuario.id_for_label }}" class="col-sm-3 col-form-label">Usuario</label>
+            <div class="col-sm-9">
+                {{ form.id_usuario }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary w-100">Guardar</button>
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'administradores:ventasapp' %}" class="btn btn-sm btn-warning">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
