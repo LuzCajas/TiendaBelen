@@ -1,5 +1,26 @@
 {% extends 'base.html' %}
 {% block contenido %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+    {% endfor %}
+  {% endif %}
   <h2 class="text-center mb-4">Iniciar Sesión</h2>
-  <p class="text-center">Sección de inicio de sesión próximamente disponible.</p>
+  <form method="POST" class="mx-auto" style="max-width: 400px;">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="{{ form.username.id_for_label }}" class="form-label">Usuario</label>
+      <input type="text" name="username" id="{{ form.username.id_for_label }}" class="form-control" required autofocus>
+    </div>
+    <div class="mb-3">
+      <label for="{{ form.password.id_for_label }}" class="form-label">Contraseña</label>
+      <input type="password" name="password" id="{{ form.password.id_for_label }}" class="form-control" required>
+    </div>
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-primary">Ingresar</button>
+    </div>
+  </form>
 {% endblock %}

@@ -1,5 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, CreateView, UpdateView, DetailView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.utils.decorators import method_decorator
+from .models import Categoria, Producto, Compra, DetalleCompra, Venta, DetalleVenta, Proveedor, Cliente
+from .forms import CategoriaForm, ProductoForm, CompraForm, VentaForm, ProveedorForm, ClienteForm, CarritoProductoForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import TemplateView, CreateView, UpdateView, DetailView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.utils.decorators import method_decorator
 from .models import Categoria, Producto, Compra, DetalleCompra, Venta, DetalleVenta, Proveedor, Cliente
 from .forms import CategoriaForm, ProductoForm, CompraForm, VentaForm, ProveedorForm, ClienteForm, CarritoProductoForm
 from django.urls import reverse_lazy, reverse
@@ -15,6 +29,7 @@ from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet
 # Create your views here.
+
 
 def ListarCategorias(request):
     categorias = Categoria.objects.filter(activo=True)
@@ -559,8 +574,32 @@ def Reportes(request):
             context['proveedores'] = Proveedor.objects.filter(activo=True).order_by('nombre')
     return render(request, 'reportes.html', context)
 
+
 class LoginView(TemplateView):
     template_name = 'login.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home:homeapp')
+        form = AuthenticationForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home:homeapp')
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            next_url = request.GET.get('next') or 'home:homeapp'
+            return redirect(next_url)
+        messages.error(request, 'Usuario o contraseña incorrectos.')
+        return render(request, self.template_name, {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 def ToggleProductoActivo(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
